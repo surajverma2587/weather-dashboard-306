@@ -12,11 +12,15 @@ export const SearchForm = ({ setUrl, setRecentCities }) => {
   const onSubmit = ({ city }) => {
     const itemsFromLS = getFromLocalStorage("recentCities");
 
-    const newItems = [city.toUpperCase().trim(), ...itemsFromLS];
+    if (!itemsFromLS.includes(city.toUpperCase().trim())) {
+      const newItems = [city.toUpperCase().trim(), ...itemsFromLS];
 
-    localStorage.setItem("recentCities", JSON.stringify(newItems));
+      localStorage.setItem("recentCities", JSON.stringify(newItems));
 
-    setRecentCities(newItems);
+      setRecentCities(newItems);
+    }
+
+    formik.resetForm();
 
     setUrl(
       `https://api.openweathermap.org/data/2.5/weather?q=${city
